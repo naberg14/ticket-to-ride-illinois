@@ -9,7 +9,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
-import clientController.IController;
+import clientControllers.IController;
 
 import server.ITTRServer;
 import server.TTRServer;

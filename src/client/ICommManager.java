@@ -3,7 +3,7 @@ package client;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import clientController.IController;
+import clientControllers.IController;
 
 /*
  * 

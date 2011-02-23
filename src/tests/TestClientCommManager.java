@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 import junit.framework.TestSuite;
 
-import clientController.IController;
+import clientControllers.IController;
 
 public class TestClientCommManager extends TestSuite {
 	

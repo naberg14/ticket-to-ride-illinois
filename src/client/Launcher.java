@@ -14,8 +14,10 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.rmi.RemoteException;
 
-import clientController.LauncherController;
-import clientView.LauncherView;
+import version.Version;
+
+import clientControllers.LauncherController;
+import clientViews.LauncherView;
 
 public class Launcher {
 
@@ -27,28 +29,18 @@ public class Launcher {
 		// Ensure that the game is not already running.
 		lockInstanceLock();
 		
-		// Show loading screen while we talk with the server, three second splash page.
+		// Show loading screen, three second splash page.
 		LauncherView view = new LauncherView();
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 		}
-		//ClientRMICommManager commManager = new ClientRMICommManager();
 		view.hide();
 		view.setAlwaysOnTop(false);
-		/*LauncherController controller = new LauncherController (view, commManager);
-		try {
-			commManager.registerController(controller);
-			if (commManager.connect()) {
-				commManager.requestVersion();
-			}
-			else {
-				controller.switchToCannotConnectScreen();
-			}
-		} catch (RemoteException e) {
-		}*/
+		
+		LauncherController controller = new LauncherController (view);
 		String version = getVersion();
-		System.out.println(version);
+		controller.onReceiveVersion(version);
 		
 	}
 
@@ -104,7 +96,7 @@ public class Launcher {
 		String version = null;
 
 		try {
-		    url = new URL("https://ticket-to-ride-illinois.googlecode.com/svn/version.txt");
+		    url = new URL("https://ticket-to-ride-illinois.googlecode.com/svn/version");
 		    is = url.openStream();
 		    in = new BufferedReader(new InputStreamReader(is));
 		    version = in.readLine();

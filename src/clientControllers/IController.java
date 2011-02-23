@@ -1,4 +1,4 @@
-package clientController;
+package clientControllers;
 
 public interface IController {
 
