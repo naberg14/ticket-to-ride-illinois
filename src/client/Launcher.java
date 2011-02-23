@@ -1,8 +1,15 @@
 package client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.rmi.RemoteException;
@@ -26,10 +33,10 @@ public class Launcher {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 		}
-		ClientRMICommManager commManager = new ClientRMICommManager();
+		//ClientRMICommManager commManager = new ClientRMICommManager();
 		view.hide();
 		view.setAlwaysOnTop(false);
-		LauncherController controller = new LauncherController (view, commManager);
+		/*LauncherController controller = new LauncherController (view, commManager);
 		try {
 			commManager.registerController(controller);
 			if (commManager.connect()) {
@@ -39,7 +46,9 @@ public class Launcher {
 				controller.switchToCannotConnectScreen();
 			}
 		} catch (RemoteException e) {
-		}
+		}*/
+		String version = getVersion();
+		System.out.println(version);
 		
 	}
 
@@ -86,6 +95,30 @@ public class Launcher {
         public void run() {
             unlockFile();
         }
+    }
+    
+    private static String getVersion() {
+    	URL url;
+		InputStream is = null;
+		BufferedReader in;
+		String version = null;
+
+		try {
+		    url = new URL("https://ticket-to-ride-illinois.googlecode.com/svn/version.txt");
+		    is = url.openStream();
+		    in = new BufferedReader(new InputStreamReader(is));
+		    version = in.readLine();
+		} catch (MalformedURLException mue) {
+		     mue.printStackTrace();
+		} catch (IOException ioe) {
+		     ioe.printStackTrace();
+		} finally {
+		    try {
+		        is.close();
+		    } catch (IOException ioe) {
+		    }
+		}
+		return version;
     }
 
 }
